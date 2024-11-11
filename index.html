@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foro Bilingüe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Fondo azul claro */
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #87cefa; /* Azul claro */
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .box {
+            background-color: #e0f7fa; /* Azul más claro */
+            border: 1px solid #b0e0e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .box:hover {
+            transform: scale(1.05);
+            background-color: #b2ebf2; /* Color más intenso al pasar el mouse */
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #87cefa;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Foro Bilingüe</h1>
+</header>
+
+<div class="container">
+    <div class="box" onclick="location.href='acerca.html';">
+        <h2>Acerca de Nosotros</h2>
+    </div>
+    <div class="box" onclick="location.href='vocabulario.html';">
+        <h2>Vocabulario</h2>
+    </div>
+    <div class="box" onclick="location.href='curso.html';">
+        <h2>Curso de Inglés</h2>
+    </div>
+    <div class="box" onclick="location.href='material.html';">
+        <h2>Material Bilingüe</h2>
+    </div>
+    <div class="box" onclick="location.href='test.html';">
+        <h2>Test de Inglés</h2>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2023 Foro Bilingüe. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
