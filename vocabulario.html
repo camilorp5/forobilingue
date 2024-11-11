@@ -58,6 +58,10 @@
         .button:hover {
             background-color: #b2ebf2;
         }
+
+        .summary-container {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -65,14 +69,20 @@
 <div class="flashcard-container">
     <div id="flashcard" class="flashcard">Cargando...</div>
     <div class="controls">
-        <button id="prev" class="button">Anterior</button>
-        <button id="next" class="button">Siguiente</button>
+        <button id="not-clear" class="button">Not Clear</button>
+        <button id="check" class="button">Check</button>
     </div>
+</div>
+
+<div class="summary-container">
+    <h2>Resumen de Flashcards</h2>
+    <div id="summary"></div>
 </div>
 
 <script>
     let currentIndex = 0;
     let flashcards = [];
+    let flashcardStatus = {}; // Objeto para almacenar el estado de cada flashcard
 
     // Cargar el archivo CSV
     async function loadCSV() {
@@ -81,18 +91,21 @@
         
         // Procesar CSV
         const rows = data.split('\n');
-        rows.forEach(row => {
+        rows.forEach((row, index) => {
             const columns = row.split(',');
             if (columns.length > 1) { // Asegura que la fila tenga contenido
                 flashcards.push({
                     palabra: columns[0],
                     significado: columns[1]
                 });
+                // Inicializa el estado de cada flashcard como "Not Clear"
+                flashcardStatus[index] = 'Not Clear';
             }
         });
         
         // Muestra la primera flashcard
         showFlashcard(currentIndex);
+        updateSummary();
     }
 
     // Mostrar la flashcard actual
@@ -106,20 +119,41 @@
         `;
     }
 
-    // Eventos para los botones
-    document.getElementById('prev').addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            showFlashcard(currentIndex);
-        }
+    // Marcar flashcard como "Check"
+    document.getElementById('check').addEventListener('click', () => {
+        flashcardStatus[currentIndex] = 'Check';
+        nextFlashcard();
     });
 
-    document.getElementById('next').addEventListener('click', () => {
+    // Marcar flashcard como "Not Clear"
+    document.getElementById('not-clear').addEventListener('click', () => {
+        flashcardStatus[currentIndex] = 'Not Clear';
+        nextFlashcard();
+    });
+
+    // Mostrar la siguiente flashcard o el resumen si ya es la última
+    function nextFlashcard() {
         if (currentIndex < flashcards.length - 1) {
             currentIndex++;
             showFlashcard(currentIndex);
+        } else {
+            alert('Has revisado todas las palabras. Puedes ver el resumen a continuación.');
         }
-    });
+        updateSummary();
+    }
+
+    // Actualizar el resumen de flashcards
+    function updateSummary() {
+        const summaryContainer = document.getElementById('summary');
+        summaryContainer.innerHTML = ''; // Limpiar el resumen
+
+        flashcards.forEach((flashcard, index) => {
+            const status = flashcardStatus[index];
+            const div = document.createElement('div');
+            div.textContent = `${flashcard.palabra}: ${status}`;
+            summaryContainer.appendChild(div);
+        });
+    }
 
     // Cargar las flashcards al iniciar
     loadCSV();
@@ -127,4 +161,3 @@
 
 </body>
 </html>
-    
