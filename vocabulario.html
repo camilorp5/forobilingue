@@ -3,71 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocabulario</title>
+    <title>Flashcards de Vocabulario</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
-            text-align: center;
-            padding: 50px;
-        }
-        h1 {
-            color: #87cefa;
-        }
-        .container {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            padding: 20px;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
         }
-        .box {
-            background-color: #e0f7fa; /* Azul más claro */
-            border: 1px solid #b0e0e6;
+
+        .flashcard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+            text-align: center;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 200px;
+            background-color: #87cefa;
+            color: #333;
             border-radius: 10px;
             padding: 20px;
-            margin: 10px;
-            width: 200px;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            transition: transform 0.3s ease-in-out;
         }
-        .box:hover {
-            transform: scale(1.05);
-            background-color: #b2ebf2; /* Color más intenso al pasar el mouse */
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #87cefa;
-            position: relative;
-            bottom: 0;
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
             width: 100%;
+        }
+
+        .button {
+            background-color: #87cefa;
+            color: #333;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background-color: #b2ebf2;
         }
     </style>
 </head>
 <body>
-    <h1>Vocabulario</h1>
-    <p>Bienvenido a la sección de Nombre de la Sección. Aquí encontrarás contenido relacionado con esta área.</p>
 
-    <div class="container">
-        <div class="box" onclick="location.href='curso.html';">
-            <h2>Curso de Inglés</h2>
-        </div>
-        <div class="box" onclick="location.href='material.html';">
-            <h2>Material Bilingüe</h2>
-        </div>
-        <div class="box" onclick="location.href='test.html';">
-            <h2>Test de Inglés</h2>
-        </div>
-        <div class="box" onclick="location.href='index.html';">
-            <h2>Página Principal</h2>
-        </div>
+<div class="flashcard-container">
+    <div id="flashcard" class="flashcard">Cargando...</div>
+    <div class="controls">
+        <button id="prev" class="button">Anterior</button>
+        <button id="next" class="button">Siguiente</button>
     </div>
+</div>
 
-    <footer>
-        <p>&copy; 2023 Foro Bilingüe. Todos los derechos reservados.</p>
-    </footer>
+<script>
+    let currentIndex = 0;
+    let flashcards = [];
+
+    // Cargar el archivo CSV
+    async function loadCSV() {
+        const response = await fetch('cartas.csv');
+        const data = await response.text();
+        
+        // Procesar CSV
+        const rows = data.split('\n');
+        rows.forEach(row => {
+            const columns = row.split(',');
+            if (columns.length > 1) { // Asegura que la fila tenga contenido
+                flashcards.push({
+                    palabra: columns[0],
+                    significado: columns[1]
+                });
+            }
+        });
+        
+        // Muestra la primera flashcard
+        showFlashcard(currentIndex);
+    }
+
+    // Mostrar la flashcard actual
+    function showFlashcard(index) {
+        const flashcard = document.getElementById('flashcard');
+        flashcard.innerHTML = `
+            <div>
+                <strong>${flashcards[index].palabra}</strong><br>
+                ${flashcards[index].significado}
+            </div>
+        `;
+    }
+
+    // Eventos para los botones
+    document.getElementById('prev').addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            showFlashcard(currentIndex);
+        }
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+        if (currentIndex < flashcards.length - 1) {
+            currentIndex++;
+            showFlashcard(currentIndex);
+        }
+    });
+
+    // Cargar las flashcards al iniciar
+    loadCSV();
+</script>
 
 </body>
 </html>
+    
