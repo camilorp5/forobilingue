@@ -15,6 +15,35 @@
         h1 {
             color: #87cefa;
         }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .box {
+            background-color: #e0f7fa; /* Azul más claro */
+            border: 1px solid #b0e0e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .box:hover {
+            transform: scale(1.05);
+            background-color: #b2ebf2; /* Color más intenso al pasar el mouse */
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #87cefa;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
